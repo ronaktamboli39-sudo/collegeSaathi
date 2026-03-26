@@ -4,13 +4,15 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = "collegesaathi_secret_123"
 DB = "carpool.db"
-
+with app.app_context():
+    init_db()
 # ─────────────────────────────────────────────
 #  DB helpers
 # ─────────────────────────────────────────────
 
 def get_db():
-    conn = sqlite3.connect(DB)
+   # conn = sqlite3.connect(DB)
+    conn = sqlite3.connect(DB, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -478,6 +480,11 @@ def handle_request(req_id):
 #  Run
 # ─────────────────────────────────────────────
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    app.run(debug=True)'''
+import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
