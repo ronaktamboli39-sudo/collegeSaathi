@@ -4,8 +4,7 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = "collegesaathi_secret_123"
 DB = "carpool.db"
-with app.app_context():
-    init_db()
+
 # ─────────────────────────────────────────────
 #  DB helpers
 # ─────────────────────────────────────────────
@@ -62,6 +61,9 @@ def init_db():
     conn.commit()
     conn.close()
 
+with app.app_context():
+    init_db()
+    
 def to_ampm(time_24: str) -> str:
     """Convert '14:30' (from HTML time input) to '2:30 PM'."""
     try:
